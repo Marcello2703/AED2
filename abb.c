@@ -1,16 +1,19 @@
+//Marcello Fonseca de Oliveira
+//RA: 140664
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+ 
 typedef struct arv
 {
     int chave;
     struct arv *esq;
     struct arv *dir;
 } tArv;
-
+ 
 typedef tArv *pArv; //ponteiro do tipo arvore
-
+ 
 pArv insere(pArv a, pArv new)
 {
     if (a == NULL)
@@ -27,7 +30,7 @@ pArv insere(pArv a, pArv new)
     }
     return a;
 }
-
+ 
 pArv removeNo(pArv a, int v)
 {
     if (a == NULL)
@@ -75,7 +78,7 @@ pArv removeNo(pArv a, int v)
     }
     return a;
 }
-
+ 
 int descobreAltura(pArv a)
 {
     if (a == NULL)
@@ -92,67 +95,10 @@ int descobreAltura(pArv a)
             return he + 1;
     }
 }
-
-int hDireita(pArv a)
-{
-    int n1 = 0;
-    //printf("ola");
-    if (a == NULL)
-    {
-        return -1;
-    }
-    else
-    {
-        if (n1 == 0 && a->dir != NULL)
-        {
-            a = a->dir;
-            n1++;
-            while (a->dir != NULL)
-            {
-                a = a->dir;
-                n1++;
-            }
-            while (a->esq != NULL)
-            {
-                a = a->esq;
-                n1++;
-            }
-        }
-        return n1;
-    }
-}
-
-int hEsquerda(pArv a)
-{
-    int n1 = 0;
-    if (a == NULL)
-    {
-        return -1;
-    }
-    else
-    {
-        if (n1 == 0 && a->esq != NULL)
-        {
-            a = a->esq;
-            n1++;
-            while (a->esq != NULL)
-            {
-                a = a->esq;
-                n1++;
-            }
-            while (a->dir != NULL)
-            {
-                a = a->dir;
-                n1++;
-            }
-        }
-        return n1;
-    }
-}
-
+ 
 pArv buscaChave(pArv a, int c)
 {
-
+ 
     pArv p;
     p = a;
     while (p != NULL)
@@ -169,17 +115,7 @@ pArv buscaChave(pArv a, int c)
     }
     return p;
 }
-
-void imprimePrefixa(pArv a)
-{
-    if (a != NULL)
-    {
-        printf("%d", a->chave);
-        imprimePrefixa(a->esq);
-        imprimePrefixa(a->dir);
-    }
-}
-
+ 
 pArv libera(pArv a)
 {
     if (a != NULL)
@@ -190,25 +126,25 @@ pArv libera(pArv a)
     }
     return NULL;
 }
-
+ 
 int main(void)
 {
     int infoInsercao[1000];
     int buscaRemocao[1000];
     int busca, cont = 0, i, alt1 = 0, altDireita1 = 0, altEsquerda1 = 0, alt2 = 0, altDireita2 = 0, altEsquerda2 = 0;
     pArv resultBusca;
-
+ 
     do
     {
         scanf("%d", &infoInsercao[cont]);
         cont++;
     } while (infoInsercao[cont - 1] >= 0);
-
+ 
     pArv raiz = (pArv)malloc(sizeof(tArv)); //aloca raiz
     raiz->chave = infoInsercao[0];
     raiz->esq = NULL;
     raiz->dir = NULL;
-
+ 
     for (i = 1; i < cont - 1; i++)
     { //percorre o vetor de chave, inserindo os valores na arvore
         pArv novo;
@@ -221,16 +157,16 @@ int main(void)
     //imprimePrefixa(raiz);
     //printf("\n");
     alt1 = descobreAltura(raiz);
-    altDireita1 = hDireita(raiz);
-    altEsquerda1 = hEsquerda(raiz);
-
+    altDireita1 = descobreAltura(raiz->dir) + 1;
+    altEsquerda1 = descobreAltura(raiz->esq) + 1;
+ 
     cont = 0;
     do
     { //segundo input
         scanf("%d", &buscaRemocao[cont]);
         cont++;
     } while (buscaRemocao[cont - 1] >= 0);
-
+ 
     for (i = 0; i < cont - 1; i++)
     {
         if (buscaChave(raiz, buscaRemocao[i]) != NULL)
@@ -247,11 +183,9 @@ int main(void)
             insere(raiz, novo);
         }
     }
-
-    //imprimePrefixa(raiz);
-    //printf("\n");
+ 
     bool flag = true;
-
+ 
     scanf("%d", &busca); //terceiro input
     resultBusca = buscaChave(raiz, busca);
     if (resultBusca == NULL)
@@ -261,10 +195,10 @@ int main(void)
     else
     {
         alt2 = descobreAltura(resultBusca);
-        altDireita2 = hDireita(resultBusca);
-        altEsquerda2 = hEsquerda(resultBusca);
+        altDireita2 = descobreAltura(resultBusca->dir)+1;
+        altEsquerda2 = descobreAltura(resultBusca->esq)+1;
     }
-
+ 
     printf("%d, %d, %d\n", alt1, altEsquerda1, altDireita1);
     if (flag == false)
     {
@@ -274,8 +208,7 @@ int main(void)
     {
         printf("%d, %d, %d\n", alt2, altEsquerda2, altDireita2);
     }
-    //imprimePrefixa(raiz);
-
+ 
     libera(raiz);
     return 0;
 }
