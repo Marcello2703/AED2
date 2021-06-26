@@ -66,14 +66,14 @@ pArv removeNo(pArv a, int v)
         }
         else
         {
-            pArv f = a->esq;
-            while (f->dir != NULL)
+            pArv f = a->dir;
+            while (f->esq != NULL)
             {
-                f = f->dir;
+                f = f->esq;
             }
             a->chave = f->chave;
             f->chave = v;
-            a->esq = removeNo(a->esq, v);
+            a->dir = removeNo(a->dir, v);
         }
     }
     return a;
@@ -98,7 +98,6 @@ int descobreAltura(pArv a)
  
 pArv buscaChave(pArv a, int c)
 {
- 
     pArv p;
     p = a;
     while (p != NULL)
