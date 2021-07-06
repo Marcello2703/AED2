@@ -114,7 +114,8 @@ pArv buscaChave(pArv a, int c)
     }
     return p;
 }
- 
+
+
 pArv libera(pArv a)
 {
     if (a != NULL)
@@ -125,7 +126,7 @@ pArv libera(pArv a)
     }
     return NULL;
 }
- 
+
 int main(void)
 {
     int infoInsercao[1000];
