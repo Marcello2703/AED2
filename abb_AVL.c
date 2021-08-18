@@ -117,7 +117,7 @@ pArv removeNo(pArv a, int valor)
         return a;
     }
 
-    if (valor < a->chave )
+    if (valor < a->chave)
     {
         a->esq = removeNo(a->esq, valor);
     }
@@ -180,12 +180,12 @@ int descobreAltura(pArv a)
     }
     else
     {
-        int he = descobreAltura(a->esq);
-        int hd = descobreAltura(a->dir);
+        int he = descobreAltura(a->esq) + 1;
+        int hd = descobreAltura(a->dir) + 1;
         if (he < hd)
-            return hd + 1;
+            return hd;
         else
-            return he + 1;
+            return he;
     }
 }
  
